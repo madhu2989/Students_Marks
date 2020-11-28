@@ -1,0 +1,139 @@
+﻿<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    th, td {
+        border: 2px solid black;
+        margin: auto;
+        text-align: center;
+        border-collapse: collapse;
+    }
+
+    .row {
+        max-width: 1140px;
+        margin: 0 auto;
+    }
+
+    h2 {
+        padding: 1% 0;
+        text-align: center;
+        word-spacing: 2px;
+        margin: 2% 0;
+        letter-spacing: 1px;
+    }
+
+    .section1 {
+        padding: 1% 0;
+        text-align: center;
+        margin-left: 30%;
+    }
+
+
+    .students {
+        padding: 1% 0;
+        margin-left: 35%;
+        display: inline-block;
+        text-align: center;
+        overflow-x: auto;
+    }
+
+    .btns {
+        float: left;
+        margin-right: 5%;
+    }
+
+
+    .btn:link,
+    .btn:visited {
+        background-color: #b53114;
+        display: inline-block;
+        padding: 10px 30px;
+        border-radius: 200px;
+        text-decoration: none;
+        font-weight: 300;
+        transition: background-color 0.8s, border 0.2s, color 0.2s;
+    }
+
+
+
+    .btn:hover,
+    .btn:active,
+    input[type=submit]:hover,
+    input[type=submit]:active {
+        background-color: #b53114;
+    }
+</style>
+
+<h2>Student Report</h2>
+<section class="row section1">
+    <div>
+        <div class="btns">
+            <input type="button" class="btn" value="Student List" onclick="location.href='@Url.Action("AllStudents", "Student")'" />
+        </div>
+        <div class="btns">
+            <input type="button" class="btn" value="Show Results of All" onclick="location.href='@Url.Action("AllStudents", "Student", new { Result = "Result" })'" />
+        </div>
+        <div class="btns">
+            <input type="button" class="btn" value="Show Results with Grace Marks" onclick="location.href='@Url.Action("AllStudents", "Student", new { graceResult = "GraceResult" })'" />
+        </div>
+    </div>
+</section>
+
+
+<section class="row students">
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>EC1</th>
+            <th>EC2</th>
+            <th>EC3</th>
+            <th>EC4</th>
+            <th>EC5</th>
+            <th>Total</th>
+            @if (@ViewBag.Result != null)
+            {
+                <th>Result</th>
+            }
+        </tr>
+        @foreach (var obj in ViewBag.StudentsList)
+            {
+            <tr>
+                <td>
+                    @obj.StudentName
+                </td>
+                <td>
+                    @obj.EC1
+                </td>
+                <td>
+                    @obj.EC2
+                </td>
+                <td>
+                    @obj.EC3
+                </td>
+                <td>
+                    @obj.EC4
+                </td>
+                <td>
+                    @obj.EC5
+                </td>
+                <td>
+                    @obj.TotalMarks
+                </td>
+                @if (@ViewBag.Result != null)
+                {
+                    if (Convert.ToInt32(@obj.EC1) < 30 || Convert.ToInt32(@obj.EC2) < 30 || Convert.ToInt32(@obj.EC3) < 30 || Convert.ToInt32(@obj.EC4) < 30 || Convert.ToInt32(@obj.EC5) < 30)
+                    {
+                        <td>Fail</td>
+                    }
+                    else
+                    {
+                        <td>Pass</td>
+                    }
+                }
+            </tr>
+        }
+    </table>
+</section>
